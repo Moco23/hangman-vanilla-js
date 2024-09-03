@@ -8,8 +8,8 @@ body {
   margin: 0;
 }
 
-#name-screen,
-#game-screen {
+.name-screen,
+.game-screen {
   text-align: center;
 }
 
