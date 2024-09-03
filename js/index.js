@@ -67,3 +67,21 @@ document.querySelector("#letter-input").addEventListener("input", function (e) {
     }
   }
 });
+
+// revealLatter function
+function revealLetter(letter) {
+  const quoteDisplay = document.querySelector("#quote");
+  let maskedQuote = quoteDisplay.textContent.split("");
+
+  for (let i = 0; i < quote.length; i++) {
+    if (quote[i].toLowerCase() === letter) {
+      maskedQuote[i] = quote[i];
+    }
+  }
+
+  quoteDisplay.textContent = maskedQuote.join("");
+
+  if (!quoteDisplay.textContent.includes("_")) {
+    endGame(true);
+  }
+}
