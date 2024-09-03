@@ -39,3 +39,15 @@ function fetchQuote() {
       displayQuote();
     });
 }
+
+// display quote function
+function displayQuote() {
+  // const and get quote
+  const quoteDisplay = document.querySelector("#quote");
+  let maskedQuote = quote.replace(/[a-zA-Z]/g, "_");
+
+  // Counting unique letters in the quote
+  uniqueChars = new Set(quote.toLowerCase().match(/[a-z]/g));
+
+  quoteDisplay.textContent = maskedQuote;
+}
