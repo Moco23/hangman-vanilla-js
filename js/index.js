@@ -51,3 +51,19 @@ function displayQuote() {
 
   quoteDisplay.textContent = maskedQuote;
 }
+
+// set event listener on input
+document.querySelector("#letter-input").addEventListener("input", function (e) {
+  const letter = e.target.value.toLowerCase();
+  e.target.value = "";
+
+  if (quote.toLowerCase().includes(letter)) {
+    revealLetter(letter);
+  } else {
+    errors++;
+    document.querySelector("#errors").textContent = errors;
+    if (errors >= maxErrors) {
+      endGame(false);
+    }
+  }
+});
