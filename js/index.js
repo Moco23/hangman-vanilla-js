@@ -27,3 +27,15 @@ function startGame() {
   fetchQuote();
   startTime = Date.now();
 }
+
+// fetch quote function
+function fetchQuote() {
+  // fetch url
+  fetch("https://api.quotable.io/random")
+    .then((response) => response.json())
+    .then((data) => {
+      quote = data.content;
+      quoteId = data._id;
+      displayQuote();
+    });
+}
