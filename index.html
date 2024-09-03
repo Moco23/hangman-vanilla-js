@@ -8,6 +8,20 @@
     <link rel="stylesheet" href="css/index.css" />
   </head>
   <body>
+    <footer id="name-screen">
+      <label for="username">Your name</label>
+      <input type="text" id="username" placeholder="Name" />
+      <button onclick="startGame()">Započni igru</button>
+    </footer>
+
+    <div id="game-screen">
+      <h1>Hangman Igra</h1>
+      <p id="quote"></p>
+      <p>Error: <span id="errors">0</span>/6</p>
+      <input type="text" id="letter-input" placeholder="Latter" maxlength="1" />
+      <button onclick="restartGame()">Play again</button>
+    </div>
+
     <script src="js/index.js"></script>
   </body>
 </html>
