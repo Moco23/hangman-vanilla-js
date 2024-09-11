@@ -1,5 +1,4 @@
 "use strict";
-
 let quote = "";
 let quoteId = "";
 let errors = 0;
@@ -7,30 +6,21 @@ let maxErrors = 6;
 let uniqueChars = new Set();
 let startTime;
 
-// start game function
 function startGame() {
-  // get the username
-  const username = document.querySelector("#username").value.traim();
-
-  // set if statmen
+  const username = document.querySelector("#username").value.trim();
   if (!username) {
-    alert("Please fill the name!");
+    alert("Please enter a username");
     return;
   }
 
-  // get and set style on name screen
   document.querySelector("#name-screen").style.display = "none";
-  // get and set style on game screen
   document.querySelector("#game-screen").style.display = "block";
 
-  // fetch quote
   fetchQuote();
   startTime = Date.now();
 }
 
-// fetch quote function
 function fetchQuote() {
-  // fetch url
   fetch("https://api.quotable.io/random")
     .then((response) => response.json())
     .then((data) => {
@@ -40,19 +30,16 @@ function fetchQuote() {
     });
 }
 
-// display quote function
 function displayQuote() {
-  // const and get quote
   const quoteDisplay = document.querySelector("#quote");
   let maskedQuote = quote.replace(/[a-zA-Z]/g, "_");
 
-  // Counting unique letters in the quote
+  // Brojanje jedinstvenih slova u citatu
   uniqueChars = new Set(quote.toLowerCase().match(/[a-z]/g));
 
   quoteDisplay.textContent = maskedQuote;
 }
 
-// set event listener on input
 document.querySelector("#letter-input").addEventListener("input", function (e) {
   const letter = e.target.value.toLowerCase();
   e.target.value = "";
@@ -68,7 +55,6 @@ document.querySelector("#letter-input").addEventListener("input", function (e) {
   }
 });
 
-// revealLatter function
 function revealLetter(letter) {
   const quoteDisplay = document.querySelector("#quote");
   let maskedQuote = quoteDisplay.textContent.split("");
@@ -84,4 +70,58 @@ function revealLetter(letter) {
   if (!quoteDisplay.textContent.includes("_")) {
     endGame(true);
   }
+}
+
+function endGame(won) {
+  const duration = Date.now() - startTime;
+  if (won) {
+    alert("Čestitamo, pobijedili ste!");
+    sendScore(duration);
+  } else {
+    alert("Izgubili ste! Pokušajte ponovno.");
+  }
+}
+
+function sendScore(duration) {
+  const username = document.querySelector("#username").value.trim();
+  const scoreData = {
+    quoteId: quoteId,
+    length: quote.length,
+    uniqueCharacters: uniqueChars.size,
+    userName: username,
+    errors: errors,
+    duration: duration,
+  };
+
+  fetch(
+    "https://my-json-server.typicode.com/stanko-ingemark/hang_the_wise_man_frontend_task/highscores",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(scoreData),
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Score sent:", data);
+      fetchHighScores();
+    });
+}
+
+function fetchHighScores() {
+  fetch(
+    "https://my-json-server.typicode.com/stanko-ingemark/hang_the_wise_man_frontend_task/highscores"
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("High scores:", data);
+    });
+}
+
+function restartGame() {
+  errors = 0;
+  document.querySelector("#errors").textContent = errors;
+  fetchQuote();
 }
